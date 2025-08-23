@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <h2>Активация аккаунта</h2>
+
+    <h2>Добро пожаловать, {{ user.username }}!</h2>
+    <p>Благодарим за регистрацию на нашем сайте.</p>
+    <p>Для активации аккаунта нажмите на кнопку ниже:</p>
+    <a href="{{ activation_url }}"
+       style="background: #4CAF50; color: white; padding: 10px 20px; text-decoration: none;">
+        Активировать аккаунт
+    </a>
+    <p>Если это не вы, проигнорируйте это письмо.</p>
+{% endblock %}

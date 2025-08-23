@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}{% endblock %}
+{% block content %}
+    <h2>{{ title }}</h2>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if user.photo %}
+            <p><img src="{{ user.photo.url }}" alt=""></p>
+        {% else %}
+            <p><img src="/media/users/noimg.png" alt=""></p>
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'password_change' %}">Сменить пароль</a>
+{% endblock %}
