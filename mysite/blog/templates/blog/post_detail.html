@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>{{ post }}</h1>
+    <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
+    <p>{{ post.content }}</p>
+    {% for image in post.images.all %}
+        <img src="{{ image.image.url }}" alt="">
+    {% endfor %}
+
+{% endblock %}
