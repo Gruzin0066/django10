@@ -5,6 +5,16 @@
     <h1>{{ post }}</h1>
     <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
     <p>{{ post.content }}</p>
+    {% with post.tags.all as tags %}
+            {% if tags %}
+                <div class="post_tag">
+                    Теги:
+                    {% for tag in tags %}
+                        <a class="tag_link" href="{{ tag.get_absolute_url }}">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     {% for image in post.images.all %}
         <img src="{{ image.image.url }}" alt="">
     {% endfor %}

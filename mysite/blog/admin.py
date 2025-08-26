@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Category, Post, Gallery
+from blog.models import Category, Post, Gallery, PostTags
 
 
 # Register your models here.
@@ -30,6 +30,13 @@ class PostAdmin(admin.ModelAdmin):
     inlines = (GalleryInline,)
 
 
+class PostTagsAdmin(admin.ModelAdmin):
+    list_display = ('tag', 'slug')
+    list_display_links = ('tag', 'slug')
+    prepopulated_fields = {'slug': ('tag',)}
+
+
 
 admin.site.register(Category, CategoryAdmin),
 admin.site.register(Post, PostAdmin)
+admin.site.register(PostTags, PostTagsAdmin)

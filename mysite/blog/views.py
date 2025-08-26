@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
-from .models import Category, Post
+from .models import Category, Post, PostTags
 
 
 # Create your views here.
@@ -35,7 +35,7 @@ class CategoryListView(ListView):
     context_object_name = 'categories'
 
     def get_queryset(self):
-        return Category.objects.all()
+        return Category.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,3 +70,15 @@ class PostPageView(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = Post.objects.get(slug=self.kwargs['slug'])
         return context
+
+def show_tags(request, slug):
+    tags = PostTags.objects.all()
+    tag = get_object_or_404(PostTags, slug=slug)
+    posts = tag.tags.filter(is_published=True).prefetch_related('category')
+    context = {
+        'tag': tag,
+        'posts': posts,
+        'tags': tags,
+        'title': tag.tag
+    }
+    return render(request, 'blog/home.html', context=context)

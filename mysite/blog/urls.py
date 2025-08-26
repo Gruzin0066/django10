@@ -7,5 +7,5 @@ urlpatterns = [
     path('about/', AboutPageView.as_view(), name='about'),
     path('category/<slug:slug>/', CategoryPageView.as_view(), name='cat'),
     path('post/<slug:slug>/', PostPageView.as_view(), name='post'),
-
+    path('tag/<slug:slug>/', show_tags, name='tag'),
 ]

@@ -3,6 +3,21 @@ from django.urls import reverse
 
 
 # Create your models here.
+class PostTags(models.Model):
+    tag = models.CharField(max_length=100, db_index=True, verbose_name='Тег')
+    slug = models.SlugField(max_length=150, db_index=True, unique=True)
+
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
+    def get_absolute_url(self):
+        return reverse('tag', kwargs={'slug': self.slug})
+
+    def __str__(self):
+        return self.tag
+
+
 class Category(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название')
     slug = models.CharField(max_length=100, unique=True, verbose_name='URL')
@@ -31,7 +46,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name='Изменён', null=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.draft)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', verbose_name='Категория')
-    # tags = models.ManyToManyField(PostTags, related_name='tags', verbose_name='Теги', blank=True)
+    tags = models.ManyToManyField(PostTags, related_name='tags', verbose_name='Теги', blank=True)
     image = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name="Фото", blank=True, null=True)
 
     class Meta:

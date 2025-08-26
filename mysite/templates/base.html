@@ -48,8 +48,8 @@
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                        aria-expanded="false">Dropdown</a>
                     <ul class="dropdown-menu">
-                        {% get_category as categories %}
-                        {% for category in categories %}
+                        {% get_category as nav_categories %}
+                        {% for category in nav_categories %}
                             <li><a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category }}</a></li>
                         {% endfor %}
                     </ul>
@@ -81,6 +81,13 @@
                     <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
                     <a href="#" class="list-group-item list-group-item-action disabled" aria-disabled="true">A disabled
                         link item</a>
+                </div>
+                {% get_tags as tags %}
+                <p>Теги</p>
+                <div class="tags">
+                    {% for tag in tags %}
+                        <p><a class="tag" href="{{ tag.get_absolute_url }}">{{ tag }}</a></p>
+                    {% endfor %}
                 </div>
             </div>
             <div class="main col-md-9">
