@@ -30,7 +30,7 @@ class AboutPageView(LoginRequiredMixin,TemplateView):
         return context
 
 class CategoryListView(ListView):
-    model = Category
+    # model = Category
     template_name = 'blog/category_list.html'
     context_object_name = 'categories'
 

@@ -39,6 +39,14 @@ class Post(models.Model):
         verbose_name_plural = 'Статьи'
         ordering = ['-created']
 
+    def active_comments(self):
+        """Возвращает только активные комментарии"""
+        return self.comments.filter(is_active=True)
+
+    def active_comments_count(self):
+        """Возвращает количество активных комментариев"""
+        return self.comments.filter(is_active=True).count()
+
     def get_absolute_url(self):
         return reverse('post', kwargs={'slug': self.slug})
 

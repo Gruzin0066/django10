@@ -15,6 +15,7 @@
         <option value="$MODULE_DIR$/mysite/templates" />
         <option value="$MODULE_DIR$/mysite/blog/templates" />
         <option value="$MODULE_DIR$/mysite/users/templates" />
+        <option value="$MODULE_DIR$/mysite/comments/templates" />
       </list>
     </option>
   </component>

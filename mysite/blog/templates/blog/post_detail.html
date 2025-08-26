@@ -9,4 +9,28 @@
         <img src="{{ image.image.url }}" alt="">
     {% endfor %}
 
+    <div class="mt-4">
+    <h3>Комментарии</h3>
+    {% with comments_count=post.comments.count %}
+    <p>Всего комментариев: {{ post.active_comments_count }}</p>
+    {% endwith %}
+
+    <!-- Последние 3 комментария -->
+    {% for comment in post.active_comments|slice:":3" %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <h6>{{ comment.author.username }}</h6>
+            <p>{{ comment.text|truncatewords:20 }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <a href="{% url 'comments:post_comments' post.slug %}" class="btn btn-outline-primary">
+        Все комментарии
+    </a>
+    <a href="{% url 'comments:add_comment' post.slug %}" class="btn btn-primary">
+        Добавить комментарий
+    </a>
+</div>
+
 {% endblock %}

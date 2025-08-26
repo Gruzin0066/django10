@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'comments.apps.CommentsConfig',
 ]
 
 MIDDLEWARE = [
