@@ -1,0 +1,8 @@
+a{
+    text-decoration: none !important;
+    color: #000;
+}
+.tag{
+    padding: 5px;
+    border: 1px #ccc solid;
+}

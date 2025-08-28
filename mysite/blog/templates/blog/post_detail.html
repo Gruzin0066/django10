@@ -4,6 +4,11 @@
 {% block content %}
     <h1>{{ post }}</h1>
     <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
+    {% if post.image %}
+            <p><img src="{{ post.image.url }}" alt=""></p>
+        {% else %}
+            <p><img src="/media/users/noimg.png" alt=""></p>
+        {% endif %}
     <p>{{ post.content }}</p>
     {% with post.tags.all as tags %}
             {% if tags %}
@@ -42,5 +47,6 @@
         Добавить комментарий
     </a>
 </div>
-
+    <a href="{% url 'delete_post' post.slug %}">Удалить</a>
+    <a href="{% url 'edit_post' post.slug %}">Редактировать</a>
 {% endblock %}

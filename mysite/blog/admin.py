@@ -24,9 +24,10 @@ class CategoryAdmin(admin.ModelAdmin):
     # get_products_count.short_description = 'Кол-во'
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'is_published')
+    list_display = ('title', 'slug','category', 'is_published')
+    list_filter = ('is_published', 'tags')
     prepopulated_fields = {'slug': ('title',)}
-    list_editable = ('is_published',)
+    list_editable = ('category', 'is_published')
     inlines = (GalleryInline,)
 
 

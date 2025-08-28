@@ -1,7 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import TemplateView, ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from .forms import AddPostForm
 from .models import Category, Post, PostTags
 
 
@@ -71,6 +74,21 @@ class PostPageView(DetailView):
         context['title'] = Post.objects.get(slug=self.kwargs['slug'])
         return context
 
+
+class PostByTagsListView(ListView):
+    template_name = 'blog/home.html'
+    context_object_name = 'posts'
+    paginate_by = 5
+    allow_empty = False
+
+    def get_queryset(self):
+        return Post.objects.filter(tags__slug=self.kwargs['slug'], is_published=True)
+
+    def get_context_data(self, **kwargs):
+        contex = super().get_context_data(**kwargs)
+        contex['title'] = PostTags.objects.get(slug=self.kwargs['slug'])
+        return contex
+
 def show_tags(request, slug):
     tags = PostTags.objects.all()
     tag = get_object_or_404(PostTags, slug=slug)
@@ -82,3 +100,29 @@ def show_tags(request, slug):
         'title': tag.tag
     }
     return render(request, 'blog/home.html', context=context)
+
+
+class AddPostView(LoginRequiredMixin, CreateView):
+    # model = Post
+    form_class = AddPostForm
+    template_name = 'blog/add_post.html'
+    # success_url = reverse_lazy('index')  # замени на свой URL
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.info(request, '🔐 Пожалуйста, авторизуйтесь для доступа к этой странице.')
+        return super().dispatch(request, *args, **kwargs)
+
+
+class PostEditPage(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = '__all__'
+    template_name = 'blog/add_post.html'
+    success_url = reverse_lazy('index')
+    extra_context = {
+        'title': 'Редактирование страницы'
+    }
+
+class PostDeletePage(LoginRequiredMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('index')

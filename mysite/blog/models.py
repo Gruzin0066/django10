@@ -39,12 +39,12 @@ class Post(models.Model):
     class Status(models.IntegerChoices):
         published = 1, 'Опубликовано'
         draft = 0, 'Черновик'
-    title = models.CharField(max_length=250)
-    slug = models.SlugField(unique=True)
-    content = models.TextField()
+    title = models.CharField(max_length=250, verbose_name='Наименование')
+    slug = models.SlugField(unique=True, verbose_name='URL')
+    content = models.TextField(verbose_name='Текст')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан', null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, verbose_name='Изменён', null=True)
-    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.draft)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.draft, verbose_name='Опубликовано')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', verbose_name='Категория')
     tags = models.ManyToManyField(PostTags, related_name='tags', verbose_name='Теги', blank=True)
     image = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name="Фото", blank=True, null=True)
